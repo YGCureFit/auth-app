@@ -1,19 +1,26 @@
-import Head from 'next/head';
-import styles from '../styles/Home.module.css';
-import Link from 'next/link';
+import React from "react";
+import Image from "next/image";
+import { useSession, signIn, signOut } from "next-auth/react";
 
-export default function Home() {
-  return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+export default function Login(){
+    const {data : session} = useSession();
 
-      <main>
-        <Link href={'/login'}>SignIn <br /></Link>
-        <Link href={'/image'}>You can only look at this image if signed in <br /></Link>
-      </main>
-    </div>
-  )
+    if(session){
+        return(
+            <div>
+                <img src='/session.jpg' width={400}></img>
+                <br />
+                <button onClick={()=>signOut()}> Sign Out</button>
+            </div>
+        )
+    }
+    else{
+        return(
+            <div>
+                <Image src='/nosession.jpeg' width={206} height={245}></Image>
+                <br />
+                <button onClick={()=>signIn()}> Sign In</button>
+            </div>
+        )
+    }
 }
